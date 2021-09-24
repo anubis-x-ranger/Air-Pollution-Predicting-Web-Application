@@ -1,0 +1,80 @@
+<!--body>
+    < Navba>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">
+            <img src="img/logo.png" height="120" width="130" alt="Logo" >
+        </a>
+        <div class="ml-auto mt-auto">
+        <ul class="navbar-nav">         
+            <img src="img/logo.png" height="120" width="130" alt="Logo" >        
+          <li class="nav-item">
+            <a class="nav-link " href="#">
+                <button type="button" class="btn btn-sm" onclick="">Home</button>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+            <button type="button" class="btn btn-sm" onclick="">About Us</button>
+            </a>  
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+            <button type="button" class="btn btn-sm" >FAQ</button>
+            </a>  
+        </li>
+        </ul>
+        <div class="right nav">
+        <input type="text" name="Search" id="search">
+        <button class="btn btn-sm"> search</button>
+    </div>
+      </nav>
+    < Navbar>
+
+
+        < Main Body {% comment "" %}{% endcomment %}>
+    <div class="container2">
+        <div class="box3">
+            <br><br><br>
+            <p>Air pollution in India is a serious health issue.[1] Of the 30 most polluted cities in the world, 21 were in India in 2019.[2][3] As per a study based on 2016 data, at least 140 million people in India breathe air that is 10 times or more over the WHO safe limit[4] and 13 of the world's 20 cities with the highest annual levels of air pollution are in India.</p>
+            <br><br>
+        </div>
+        <div>
+            <select class="form-select" aria-label="">
+                <option selected>Select a City</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Chennai">Chennai</option>
+              </select>
+              <br>
+              <br>  
+            <button type="button" class="btn btn-primary" >Show Statistics</button>
+            <button type="button" class="btn btn-primary" >Show Map</button>
+        </div>
+        <div class="box4">
+        </div>
+    </div>
+</body-->
+
+
+
+
+
+
+
+
+
+
+
+<script>
+let api_url = 'https://api.waqi.info/feed/mumbai/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba'
+   async function calling(url){
+let response =await fetch(url)
+
+var data = response.json();
+    console.log(data)
+    }
+    calling(api_url)
+
+    function showdata(data)
+
+</script>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Air Pollution Prediction</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css"> <!-- stylesheet changed-->
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.stock.min.js"></script>
+    <!-- chartjs/Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+ 
+
+<!-- CALL API  -->
+<!-- <script>
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    var c = url.searchParams.get("city");
+    console.log(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`);
+    fetch(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`)
+    .then(response=>response.json())
+    .then(data=>{
+        console.log(data.data.forecast.daily.pm10, 'city data');
+        // mape
+    })
+</script> -->
+
+</head>
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+          <img src="../static/img/logo.png" alt="" width="50" height="40">
+          VESIT</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/faq">FAQ</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/base">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/about">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link active bg-white btn-outline-light" aria-current="page" href="/map" onclick="mapcity()">Show Map</button>
+              </li>
+            </ul>
+            <form class="d-flex" method="GET">
+              <input class="form-control me-2" id="SelectC" placeholder="Search" >
+              <button class="btn btn-outline-success" id="SelectCi" type="button" onclick="reCity()">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+
+
+<div style="
+    padding-top: 20px;
+    padding-right:100px;
+    text-align: center; 
+    padding-right: 100;
+    padding-bottom: 50;" id="cname"
+    ></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col" style="
+        padding-left: 150px; 
+        padding-top: 50px">
+        <canvas id ="myChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col" style="
+        padding-top:50px
+        ">
+        <canvas id ="mypieChart" width="400" height="400"></canvas>
+        </div>    
+    </div>
+
+<!-- forecasts -->
+
+    <div style="
+    padding-top: 20px;
+    padding-right:100px;
+    text-align: center; 
+    padding-right: 100;
+    padding-bottom: 50;" id = "vname">Forecasts for Mumbai</div>
+    <div class="row">
+        <div class="col"
+        style="
+        padding-left:120px
+        ">
+        <canvas id ="mylineChart" width="400" height="400"></canvas>
+    </div>
+    <div class="col">
+        <canvas id ="mylineChart2" width="400" height="400"></canvas>
+    </div>
+    <div class="col">
+        <canvas id ="mylineChart3" width="400" height="400"></canvas>
+    </div>
+
+
+{#    <div style="#}
+{#    padding-top: 20px;#}
+{#    padding-right:100px;#}
+{#    text-align: center; #}
+{#    padding-right: 100;#}
+{#    padding-bottom: 50;" id="bname"></div>#}
+{#    <div style="padding-left: 200px;"><img src="../static/img/mumbaipred.PNG"></div>#}
+
+    <div id="stockChartContainer" style="height: 450px; width: 100%;"></div>
+</div>
+</div>
+
+
+
+<!-- Line Graph PM10 -->
+<script>
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    var c = url.searchParams.get("city");
+    var da = [];
+    var dDay = [];
+    var db = [];
+    var dc = [];
+        
+    console.log(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`);
+    fetch(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`)
+    .then(response=>response.json())
+    .then(data=>{
+        // mapdata
+        data.data.forecast.daily.pm10.forEach(d => {
+            da.push(d.min);
+            db.push(d.avg);
+            dc.push(d.max);
+            dDay.push(d.day);
+        });   
+    let poll5 = document.getElementById('mylineChart3');
+    let mylineChart3 = new Chart(poll5, {
+    type: 'line',
+    data: {
+        labels: dDay,
+        datasets: [{
+            label: ' Min PM10 ',
+            data: da,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(0, 255, 0, 1)',
+                ],
+        },
+        {
+            label: ' Average PM10 ',
+            data: db,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(255, 255, 0, 1)',
+                ],},
+                {
+            label: ' Max PM10 ',
+            data: dc,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(255, 0, 0, 1)',
+                ],}
+    ]
+    },
+    options:{
+        responsive: false,
+        layout:{
+            padding:{
+                top:50,
+                right:50
+                
+            }
+        }
+    }
+    });
+    if(myChart!=null){
+        myChart.getContext('2d');
+    }else{
+        console.log('error')
+    }
+    })
+
+</script>
+
+<!-- line chart O3 -->
+<script>
+var urlString = window.location.href;
+    var url = new URL(urlString);
+    var c = url.searchParams.get("city");
+    var dx = [];
+    var dDy = [];
+    var dy = [];
+    var dz = [];
+        
+    console.log(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`);
+    fetch(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`)
+    .then(response=>response.json())
+    .then(data=>{
+        // mapdata
+        data.data.forecast.daily.o3.forEach(d => {
+            dx.push(d.min);
+            dy.push(d.avg);
+            dz.push(d.max);
+            dDy.push(d.day);
+        });   
+    let poll4 = document.getElementById('mylineChart2');
+    let mylineChart2 = new Chart(poll4, {
+    type: 'line',
+    data: {
+        labels: dDy,
+        datasets: [{
+            label: ' Min O3 ',
+            data: dx,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(0, 255, 0, 1)',
+                ],
+        },
+        {
+            label: ' Average O3 ',
+            data: dy,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(255, 255, 0, 1)',
+                ],},
+                {
+            label: ' Max O3 ',
+            data: dz,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(255, 0, 0, 1)',
+                ],}
+    ]
+    },
+    options:{
+        responsive: false,
+        layout:{
+            padding:{
+                top:50,
+                right:50
+                
+            }
+        }
+    }
+    });
+    if(myChart!=null){
+        myChart.getContext('2d');
+    }else{
+        console.log('error')
+    }
+    })
+</script>
+
+<!-- Line Graph PM2.5-->
+<script>
+var urlString = window.location.href;
+    var url = new URL(urlString);
+    var c = url.searchParams.get("city");
+    var dxx = [];
+    var dDdy = [];
+    var dyy = [];
+    var dzz = [];
+        
+    console.log(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`);
+    fetch(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`)
+    .then(response=>response.json())
+    .then(data=>{
+        // mapdata
+        data.data.forecast.daily.pm25.forEach(d => {
+            dxx.push(d.min);
+            dyy.push(d.avg);
+            dzz.push(d.max);
+            dDdy.push(d.day);
+        });   
+        console.log(dxx)
+    let poll3 = document.getElementById('mylineChart');
+    let mylineChart = new Chart(poll3, {
+    type: 'line',
+    data: {
+        labels: dDdy,
+        datasets: [{
+            label: ' Min PM 2.5 ',
+            data: dxx,
+            borderWidth: 1,
+            backgroundColor: [
+            'rgba(63, 191, 63, 1)',
+                ],
+        },
+        {
+            label: ' Average PM 2.5 ',
+            data: dyy,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(255, 255, 0, 1)',
+                ],},
+                {
+            label: ' Max PM 2.5 ',
+            data: dzz,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(255, 0, 0, 1)',
+                ],}
+    ]
+    },
+    options:{
+        responsive: false,
+        layout:{
+            padding:{
+                top:50,
+                right:50
+                
+            }
+        }
+    }
+    });
+    if(myChart!=null){
+        myChart.getContext('2d');
+    }else{
+        console.log('error')
+    }
+    })
+</script>
+
+
+<!-- pie Chart all Details WIP-->
+<script>
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    var c = url.searchParams.get("city");
+    var dm = [];
+        
+    console.log(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`);
+    fetch(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`)
+    .then(response=>{
+       console.log(response) 
+       return response.json()})
+
+    .then(data=>{
+        console.log(data.data.iaqi, 'city data');
+        // mapdata
+        
+        dm.push(data.data.iaqi.dew.v);
+        dm.push(data.data.iaqi.h.v);
+        dm.push(data.data.iaqi.pm25.v);
+        dm.push(data.data.iaqi.t.v);
+        let poll2 = document.getElementById('mypieChart');
+    let mypieChart = new Chart(poll2, {
+    type: 'pie',
+    data: {
+        labels: ['Dew Point', 'Humidity','PM2.5','temperature'],
+        datasets: [{
+            label: 'Current Details',
+            data:dm,
+            borderWidth: 1,
+            backgroundColor: [
+            'rgba(63, 191, 63, 1)',  //Green
+                'rgba(54, 162, 235,1)',  //Blue
+                'rgba(255, 206, 86, 1)', // Yellow
+                'rgba(193, 66, 66, 1)'
+            ],
+            
+        }]
+    },
+    options:{
+        responsive: false,
+        layout:{
+            padding:{
+                left:50,
+                bottom:50
+                
+            }
+        }
+    }
+
+    });
+
+    //script to load 2D canvas
+    if(myChart!=null){
+        myChart.getContext('2d');
+    }else{
+        console.log('error')
+    }
+        });
+        console.log(dm);
+</script>
+
+<!-- Bar Graph all 3 pollutants -->
+<script>
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    var c = url.searchParams.get("city");
+    var dm = [];
+
+        console.log(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`);
+    fetch(`https://api.waqi.info/feed/${c}/?token=a42ad4ead161a4d22b47dc6df77161af336ae8ba`)
+    .then(response=>{
+       console.log(response) 
+       return response.json()})
+
+    .then(data=>{
+        console.log(data.data.iaqi, 'city data');
+        // mapdata
+        
+        dm.push(data.data.iaqi.dew.v);
+        dm.push(data.data.iaqi.h.v);
+        dm.push(data.data.iaqi.pm25.v);
+        dm.push(data.data.iaqi.t.v);
+        let poll2 = document.getElementById('myChart');
+    let mypieChart = new Chart(poll2, {
+    type: 'bar',
+    data: {
+        labels: ['Dew Point', 'Humidity','PM2.5','temperature'],
+        datasets: [{label:[],
+            data:dm,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(63, 191, 63, 1)',  //Green
+                'rgba(54, 162, 235,1)',  //Blue
+                'rgba(255, 206, 86, 1)', // Yellow
+                'rgba(193, 66, 66, 1)'   // Red
+                
+            ],
+            
+        }]
+    },
+    options:{
+
+        responsive: false,
+        layout:{
+                padding:{
+                    top:20,
+                    right:50,
+                    bottom:50
+                    
+                },
+            },
+                datasets:{
+                    label:{
+                        display:false
+                    }
+                }
+            }
+            
+        
+        });
+        if(myChart!=null){
+            myChart.getContext('2d');
+        }else{
+            console.log('error')
+        }
+    })
+</script>
+
+
+<script>
+    document.getElementById("cname").innerHTML=("Showing results for " + url.searchParams.get("city")).bold() ;
+    document.getElementById("vname").innerHTML=("Showing PM2.5, PM10 and Ozone Forcasts for " + url.searchParams.get("city")).bold() ;
+    document.getElementById("bname").innerHTML=("Prophet Predictions for  " + url.searchParams.get("city")).bold();
+    function reCity()
+    {
+        // e.preventDefault();
+        var city2 = document.getElementById("SelectC").value;
+        console.log(city2);
+        window.location.href = "stat.html?city="+city2;
+    }
+    function mapcity()
+    {
+        var c = url.searchParams.get("city");
+        window.location.href = "map.html?city="+c;
+    }
+</script>
+<script type="text/javascript">
+window.onload = function () {
+  var dataPoints1 = [], dataPoints2 = [];
+  var url = new URL(urlString);
+  var city = url.searchParams.get("city");
+  var stockChart = new CanvasJS.StockChart("stockChartContainer",{
+    title:{
+      text:"AQI"
+    },
+    subtitles: [{
+      text: city+" Air Quality"
+    }],
+    charts: [{
+      axisY: {
+        suffix: ""
+      },
+      data: [{
+        type: "rangeSplineArea",
+        xValueFormatString: "DD-MM-YYYY",
+        toolTipContent: "<span style=\"color:#4F81BC\">Date: {x}</span><br/>Min: {y[0]},<br/> Max: {y[1]}",
+        dataPoints : dataPoints1
+      }]
+    }],
+    navigator: {
+      data: [{
+        type: "line",
+        dataPoints: dataPoints2
+      }],
+      slider: {
+        minimum: new Date(2015, 00),
+        maximum: new Date(2022, 00)
+      }
+    },
+    rangeSelector: {
+      buttons: [{
+        label: "1w",
+        range: 1,
+        rangeType: "week"
+      },{
+        label: "1m",
+        range: 1,
+        rangeType: "month"
+      },{
+        label: "6m",
+        range: 6,
+        rangeType: "month"
+      }
+      ,{
+        label: "1y",
+        range: 1,
+        rangeType: "year"
+      },{
+        label: "All",
+        range: null,
+        rangeType: "all"
+      }]
+    }
+  });
+  $.getJSON("http://127.0.0.1:8000/static/forcast.json", function(data) {
+    for(var i = 0; i < data.length; i++){
+        console.log(data[i])
+      dataPoints1.push({x: new Date(data[i].ds), y: [Number(data[i].yhat_lower), Number(data[i].yhat_upper)]});
+      dataPoints2.push({x: new Date(data[i].ds), y: Number(data[i].trend)});
+    }
+    stockChart.render();
+  });
+}
+</script>
+</body>
+</html>

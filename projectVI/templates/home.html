@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static '/css/style.css' %}"> <!-- stylesheet changed-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Air Pollution Prediction</title>
+</head>
+
+<body>
+    <nav class="navbar background">
+        <ul class="nav-list">
+            <div class="logo"><a herf="#"></a><img src="{% static '/img/logo.jpg' %}" alt="Logo"></div>
+                <li> <a href="/" onclick="home.html">Home</a>
+                </li>
+                <li> <a href="/faq"  onclick="faq.html">FAQ</a>
+                </li>
+                <li> <a href="/base" onclick="base.html">Blog</a>
+                </li>
+                <li> <a href="/about" onclick="about.html">Contact</a>
+                </li>             
+        </ul>
+    </nav>
+    <section class="background firstsection">
+        <div class="box-main">   
+            <div class="firsthalf">
+                <p class="text-big"><span>Stopping</span> <span>Pollution</span> <span>Is</span> <span>The</span> <span>Best</span> <span>Solution</span></p>
+                
+                <p class="text-small">
+                Air pollution in India is a serious health issue. Of the 30 most polluted cities in the world,
+                21 were in India in 2019. 
+                As per a study based on 2016 data, at least 140 million people in India breathe air 
+                that is 10 times or more over the WHO safe limit and 13 of the world's 20 cities with the 
+                highest annual
+                levels of air pollution are in India.</p>
+                <form method="GET" name="Form">
+                <div class="select-box">
+                    <select class="form-select" id="selectCity">
+                    <option selected>Select a City</option>
+                    <option id="Mumbai" value="Mumbai">Mumbai</option>
+                    <option id="Delhi" value="Delhi">Delhi</option>
+                    <option id="chennai" value="Chennai">Chennai</option>
+                    <option id="kolkata" value="kolkata">Kolkata</option>
+                    <option id="jaipur" value="jaipur">Jaipur</option>
+                    <option id="bengaluru" value="bengaluru">Bengaluru</option>
+                    <option id="gwalior" value="gwalior">Gwalior</option>
+                    <option id="lucknow" value="lucknow">Lucknow</option>
+                    <option id="nagpur" value="nagpur">Nagpur</option>
+                    <option id="thane" value="thane">Thane</option>
+                    <option id="pune" value="pune">Pune</option>
+                    <option id="kanpur" value="kanpur">Kanpur</option>
+                    <option id="patna" value="patna">Patna</option>
+                    <option id="virar" value="virar">Virar</option>
+                    </select>
+                </div>
+                <button class="btn" type="button" onclick="setCity()">Show Statistics</button>
+                <button class="btn" type="button" onclick="setCityM()">Show Map</button>
+                <!-- <a href="stat.html">
+                </a> -->
+                </form>
+                </div>
+                <div class="secondhalf">
+                    <img src="../static/img/industry-clipart-factory-air-pollution-16.png" alt="college logo">
+                </div>    
+            </div>
+    </section>
+
+
+
+
+
+    <!--section class="comment">
+        <div class="respond">
+            <h2 class="reply-title">
+            Leave a reply
+            </h2>
+            <h3>We would love to respond to to your queries and help you learn About our Research. Feel free to get in touch with us</h3>
+            <div class="contact-us">
+            <h4>send your reply</h4>
+            <br>
+            <p><?php
+            echo "hello world";
+
+            ?>
+            </p>
+            .p a{
+    color: orange;
+}
+
+.comment{
+    width: 80%;
+    margin: 50px auto;
+}
+.respond h3{
+    margin-bottom: 10px;
+}
+.respond h4{
+    margin-bottom: 10px;
+}
+.contact-us{
+    background-color: aquamarine;
+    display: flex;
+}
+            <form action="#">
+                <textarea placeholder="type your reply..." id="comment" name="comment" cols="100" rows="30" area-required="true">
+               
+            
+            </form>
+            </div>
+        </div>
+    </section-->
+
+    <script>
+        function  setCity()
+        {
+            // e.preventDefault();
+            var city = document.getElementById("selectCity").value;
+            console.log(city);
+            window.location.href = "/stat?city="+city;
+        }
+        function setCityM()
+        {
+            // e.preventDefault();
+            var city = document.getElementById("selectCity").value;
+            console.log(city);
+            window.location.href = "/map?city="+city;
+        }
+    </script>
+
+<!-- 
+    Prophet Predictions
+-->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <footer>
+        <div class="footer-content">
+            <h3>VESIT</h3>
+            <p>  Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
+            dolorum adipisci recusandae praesentium dicta!</P>
+            <ul class="socials">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-google-plus"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-youtube"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-linkedin-square"></i>
+                    </a>
+                </li>
+            </ul>
+            
+        </div>
+        <div class="footer-bottom">
+            <p> copyright &copy;2021 VESIT. designed by <span>VESIT Students</span></P>
+        </div>
+    </footer>
+</body>
+</html>
