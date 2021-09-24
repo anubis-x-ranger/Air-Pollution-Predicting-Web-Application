@@ -1,0 +1,260 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.logo{
+    width: 100%;
+    display: flex;
+    justify-content: space-around 2rem;
+    align-items: left;
+}
+.logo img{
+    width: 6rem;
+    height: 6rem;
+    border: 3px solid orange;
+    border-radius: 50px;
+}
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top:0;
+    cursor: pointer;
+
+}
+.nav-list{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 131px;
+}
+.nav-list li{
+    list-style: none;
+    padding: 1rem 2rem;
+    justify-content: center;
+    padding-inline: 5rem;
+}
+
+.nav-list li a{
+    text-decoration: none;
+    color:white;
+}
+
+.nav-list li a button{
+    align-content: flex-start;
+        padding: 5px 7px;
+        margin: 5px 0;
+        border: 2px solid white;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        background: none;
+        color: white;
+        cursor: pointer;
+        word-spacing: 6px;
+    
+}
+.nav-list li a:hover{
+   
+    color: gray;
+}
+.background{
+    background: rgba(0, 0,0, 0.7) url(../img/pexels-felix-mittermeier-956999.jpg);
+    background-size: cover;
+    background-blend-mode: darken;
+}
+
+.firstsection{
+    height: 100vh;
+}
+.box-main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 70px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 85%;
+    margin: auto;
+    height: 75%;
+}
+
+.firsthalf{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.secondhalf{
+    width: 30%;
+
+}
+
+.secondhalf img{
+    width: 70%;    
+    border: 4px solid white;
+    border-radius: 150px;
+    display: block;
+    margin: auto;
+
+}
+
+.text-big{
+    font-size: 25px;
+    align-items: center;
+}
+
+.text-small{
+    font-size: 15px;
+    align-items: flex-start;
+    align-content:flex-start;
+
+}
+.select-box{
+    width: 100%;
+    position:static;
+}
+.form-select{
+    height: 32px;
+    padding: 3px 9px;
+    line-height: 18px;
+    font-size: 17px;
+    width: 30%;
+    border: 2px solid green;
+    border-radius: 8px;
+    -webkit-appearance: none;
+    appearance: none;    
+}
+.form-select ::after{
+    content: "";
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    margin-top: -4px;
+    border-top: 8px solid green;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    pointer-events: none;
+}
+.form-select select::-moz-focus-inner{
+    border: 2px solid green;
+
+
+}
+.btn-sm{
+    padding: 6px 10px;
+    vertical-align: -webkit-baseline-middle;
+}
+.btn{
+    padding: 8px 27px;
+    margin: 9px 3px;
+    border: 0.2rem solid white;
+    border-radius: 8px;
+    font-size: 12px;
+    background: none;
+    cursor: pointer;
+    color: white;
+}
+.btn:hover{
+    color: aqua;
+}
+.text-big span{
+    color: wheat;
+    font-family: 'Times New Roman', Times, serif;
+}
+.secRight{
+    display: flex;
+    max-width: 75%;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    padding-left: 133px;
+}
+
+.sectionTag{
+    color: black;
+    align-items: center;
+    padding: inherit;
+}
+.sectionTag p {
+    font-size: 17px;
+}
+
+.secondimg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer{
+    background: #111;
+    height: auto;
+    width: 100vw;
+    font-family: "Open Sans";
+    padding-top: 40px;
+    color: white;
+}
+.footer-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.footer-content h3{
+    font-size: 1.8rem;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 3rem;
+}
+.footer-content p{
+    max-width: 500px;
+    margin: 10px auto;
+    line-height: 28px;
+    font-size: 14px;
+}
+.socials{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 3rem 0;
+}
+.socials li{
+    margin: 0 10px;
+}
+.socials a{
+    text-decoration: none;
+    color: white;
+}
+.socials a i{
+    font-size: 1.1rem;
+    transition: color .4s ease;
+}
+.socials a:hover i{
+    color: aqua;
+}
+.footer-bottom{
+    background: #000;
+    width: 100vw;
+    padding: 20px 0;
+    text-align: center;
+}
+.footer-bottom p{
+    font-size: 14px;
+    word-spacing: 2px;
+    text-transform: capitalize;
+}
+.footer-bottom span{
+    text-transform: uppercase;
+    opacity: .4;
+    font-weight: 200;
+}
+
